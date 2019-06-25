@@ -835,7 +835,7 @@
 
 		<mkdir dir="${dist.dir}/source/OpenRTM-aist-Java-${version}" />
 
-		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE.zip" />
+		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}.zip" />
 
 		<copy todir="${dist.dir}/source/OpenRTM-aist-Java-${version}/src" >
 
@@ -861,13 +861,13 @@
 
 		<copy file=".classpath" todir="${dist.dir}/source/OpenRTM-aist-Java-${version}" />
 
-		<zip destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE.zip" basedir="${dist.dir}/source/OpenRTM-aist-Java-${version}" />
+		<zip destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}.zip" basedir="${dist.dir}/source/OpenRTM-aist-Java-${version}" />
 
 		<delete dir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar/OpenRTM-aist/${short_ver}" />
 
 		<mkdir dir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar/OpenRTM-aist/${short_ver}" />
 
-		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE-jar.zip" />
+		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar.zip" />
 
 		<copy todir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar/OpenRTM-aist/${short_ver}/jar" >
 
@@ -932,11 +932,11 @@
 
 		</copy>
 
-		<zip destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE-jar.zip" basedir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar" />
+		<zip destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar.zip" basedir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar" />
 
-		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE.tar.gz" />
+		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}.tar.gz" />
 
-		<tar destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE.tar.gz" 
+		<tar destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}.tar.gz" 
 			basedir="../../" 
 			compression="gzip" 
 			excludes="OpenRTM-aist-Java/jp.go.aist.rtm.RTC/jcoverage.ser, 
