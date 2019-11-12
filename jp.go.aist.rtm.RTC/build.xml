@@ -21,6 +21,8 @@
 	<property name="source.rtmtemp" value="src/RTMTemp"/>
 
 	<property name="source.openrtm" value="src/OpenRTM"/>
+	<property name="source.img" value="src/Img"/>
+	<property name="source.jaraarm" value="src/JARA_ARM"/>
 
 	<property name="source.openrtmtemp" value="src/OpenRTMTemp"/>
 
@@ -443,7 +445,7 @@
 
 	<target name="compile" description="ソースをコンパイルします(Linux)">
 		<mkdir dir="${build.dir}" />
-		<javac srcdir="${source.sdo}:${source.rtc}:${source.rtm}:${source.openrtm}" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar" encoding="UTF-8" />
+		<javac srcdir="${source.sdo}:${source.rtc}:${source.rtm}:${source.openrtm}:${source.img}:${source.jaraarm}" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar" encoding="UTF-8" />
 		<javac srcdir="${source.main}" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar"  encoding="UTF-8" includes="go/aist/**" excludes="go/aist/ForSunOrb/**,go/aist/ForJacOrb/**"/>
 		<javac srcdir="${source.rtcd}:${source.rtcprof}" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar"  encoding="UTF-8"/>
 		<javac srcdir="${source.extension}:" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar"  encoding="UTF-8" />
