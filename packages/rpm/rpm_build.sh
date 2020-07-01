@@ -81,7 +81,7 @@ get_version_info()
 {
     rm -f build.xml
     if test "x$VERSION_SRC" = "x" ; then
-        VERSION_SRC="http://svn.openrtm.org/OpenRTM-aist-Java/trunk/OpenRTM-aist-Java/jp.go.aist.rtm.RTC/build.xml"
+        VERSION_SRC="https://raw.githubusercontent.com/OpenRTM/OpenRTM-aist-Java/svn/RELENG_1_2/jp.go.aist.rtm.RTC/build.xml"
     fi
     wget $VERSION_SRC
     VERSION=`xmllint --xpath "/project/property[1]/@value" build.xml | sed -e "s/value=\"\([^\"]*\)\"/\1\n/g"`

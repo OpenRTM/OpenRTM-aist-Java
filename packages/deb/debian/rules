@@ -92,6 +92,8 @@ install-arch:
 	# for openrtm-aist-java package
 	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm-aist-java/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER))
 	(cd $(CURDIR) ; cp -R jar $(CURDIR)/debian/openrtm-aist-java/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER))
+	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm-aist-java/etc/profile.d)
+	(cd $(CURDIR) ; echo "export RTM_JAVA_ROOT=/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER)" > $(CURDIR)/debian/openrtm-aist-java/etc/profile.d/openrtm-aist-java.sh)
 	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm-aist-java/usr/bin)
 	(cd $(CURDIR) ; cp examples/rtcd_java $(CURDIR)/debian/openrtm-aist-java/usr/bin ; chmod 755 $(CURDIR)/debian/openrtm-aist-java/usr/bin/rtcd_java)
 	(cd $(CURDIR) ; cp examples/rtcprof_java $(CURDIR)/debian/openrtm-aist-java/usr/bin ; chmod 755 $(CURDIR)/debian/openrtm-aist-java/usr/bin/rtcprof_java)

@@ -307,16 +307,6 @@ public class OutPort<DataType> extends OutPortBase {
             rtcout.println(Logbuf.WARN, 
                    "Exception caught."+e.toString());
         }
-
-
-
-        addProperty("dataport.data_value", valueRef.v, cl); 
-
-        synchronized (m_profile.properties) {
-            NVListHolder nvholder = new NVListHolder(m_profile.properties);
-            m_propValueIndex = NVUtil.find_index(nvholder, 
-                                                 "dataport.data_value");
-        }
     }
     
     /**
@@ -363,24 +353,6 @@ public class OutPort<DataType> extends OutPortBase {
             m_OnWrite.run(value);
             rtcout.println(Logbuf.TRACE, "OnWrite called");
         }
-
-        synchronized (m_profile_mutex) {
-            NVListHolder nvholder = 
-                 new NVListHolder(m_profile.properties);
-            try{
-                CORBA_SeqUtil.erase(nvholder, m_propValueIndex);
-             } catch (Exception ex) {
-                throw new InternalError("remove_organization_property()");
-            }
-
-            m_profile.properties = nvholder.value;
-            Class cl = value.getClass();
-            addProperty("dataport.data_value", value, cl);
-            nvholder.value = m_profile.properties;
-            m_propValueIndex = NVUtil.find_index(nvholder, "dataport.data_value");
-
-        }
-
 
         // 1) direct connection
         synchronized (m_directNewDataMutex){

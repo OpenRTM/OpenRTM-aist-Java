@@ -1538,6 +1538,7 @@ System.err.println("Manager's IOR information: "+ior);
             if(osname.startsWith("windows")){
                 cmd.add("cmd");
                 cmd.add("/c");
+                load_path = load_path.replace("\\","\\\\");
             }
             cmd.add(rtcd_cmd);
             cmd.add("-o");
@@ -1758,6 +1759,7 @@ System.err.println("Manager's IOR information: "+ior);
             if(osname.startsWith("windows")){
                 cmd.add("cmd");
                 cmd.add("/c");
+                load_path = load_path.replace("\\","\\\\");
             }
             cmd.add(rtcd_cmd);
             cmd.add("-p");

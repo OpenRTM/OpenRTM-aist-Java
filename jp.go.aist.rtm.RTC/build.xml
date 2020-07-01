@@ -1,6 +1,6 @@
 <project name="OpenRTM-aist-Java" default="jar">
 
-	<property name="version" value="1.2.0"/>
+	<property name="version" value="1.2.2"/>
 	<property name="short_ver" value="1.2"/>
 	<property name="target.name" value="OpenRTM-aist-${version}"/>
 
@@ -21,6 +21,8 @@
 	<property name="source.rtmtemp" value="src/RTMTemp"/>
 
 	<property name="source.openrtm" value="src/OpenRTM"/>
+	<property name="source.img" value="src/Img"/>
+	<property name="source.jaraarm" value="src/JARA_ARM"/>
 
 	<property name="source.openrtmtemp" value="src/OpenRTMTemp"/>
 
@@ -428,7 +430,7 @@
 
 	<target name="compile" description="ソースをコンパイルします(Linux)">
 		<mkdir dir="${build.dir}" />
-		<javac srcdir="${source.sdo}:${source.rtc}:${source.rtm}:${source.openrtm}" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar" encoding="UTF-8" />
+		<javac srcdir="${source.sdo}:${source.rtc}:${source.rtm}:${source.openrtm}:${source.img}:${source.jaraarm}" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar" encoding="UTF-8" />
 		<javac srcdir="${source.main}" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar"  encoding="UTF-8" includes="go/aist/**" excludes="go/aist/ForSunOrb/**,go/aist/ForJacOrb/**"/>
 		<javac srcdir="${source.rtcd}:${source.rtcprof}" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar"  encoding="UTF-8"/>
 		<javac srcdir="${source.extension}:" destdir="${build.dir}" classpath="lib/commons-cli-1.1.jar:lib/jna-4.2.2.jar:lib/jna-platform-4.2.2.jar"  encoding="UTF-8" />
@@ -749,7 +751,7 @@
 
 		<mkdir dir="${dist.dir}/source/OpenRTM-aist-Java-${version}" />
 
-		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE.zip" />
+		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}.zip" />
 
 		<copy todir="${dist.dir}/source/OpenRTM-aist-Java-${version}/src" >
 
@@ -775,13 +777,13 @@
 
 		<copy file=".classpath" todir="${dist.dir}/source/OpenRTM-aist-Java-${version}" />
 
-		<zip destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE.zip" basedir="${dist.dir}/source/OpenRTM-aist-Java-${version}" />
+		<zip destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}.zip" basedir="${dist.dir}/source/OpenRTM-aist-Java-${version}" />
 
 		<delete dir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar/OpenRTM-aist/${short_ver}" />
 
 		<mkdir dir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar/OpenRTM-aist/${short_ver}" />
 
-		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE-jar.zip" />
+		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar.zip" />
 
 		<copy todir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar/OpenRTM-aist/${short_ver}/jar" >
 
@@ -846,11 +848,11 @@
 
 		</copy>
 
-		<zip destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE-jar.zip" basedir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar" />
+		<zip destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar.zip" basedir="${dist.dir}/source/OpenRTM-aist-Java-${version}-jar" />
 
-		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE.tar.gz" />
+		<delete file="${dist.dir}/source/OpenRTM-aist-Java-${version}.tar.gz" />
 
-		<tar destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}-RELEASE.tar.gz" 
+		<tar destfile="${dist.dir}/source/OpenRTM-aist-Java-${version}.tar.gz" 
 			basedir="../../" 
 			compression="gzip" 
 			excludes="OpenRTM-aist-Java/jp.go.aist.rtm.RTC/jcoverage.ser, 

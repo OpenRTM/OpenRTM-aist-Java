@@ -744,7 +744,7 @@ public abstract class PortBase extends PortServicePOA {
             "YES","NO",default_value)){
             for(int ic=0;ic<connector_profile.value.ports.length;++ic){
                 RTC.PortService port = connector_profile.value.ports[ic];
-                if(port._is_equivalent(m_objref)){
+                if(!port._is_equivalent(m_objref)){
                     boolean ret = CORBA_RTCUtil.already_connected(port, 
                                                                   m_objref);
                     if(ret){

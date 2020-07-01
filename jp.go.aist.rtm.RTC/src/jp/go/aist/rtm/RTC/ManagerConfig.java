@@ -494,6 +494,7 @@ class ManagerConfig {
         String hostName = "UNKNOWN";
         String pid = "UNKNOWN";
         String suffix = "UNKNOWN";
+        String languages = "C++, Python, Java";
         
         try {
             java.util.Properties sysInfo = System.getProperties();
@@ -502,12 +503,15 @@ class ManagerConfig {
             osName = sysInfo.getProperty("os.name");
             if(osName.toLowerCase().startsWith("windows")){
                 suffix = "dll";
+                languages = "C++, Python, Java";
             }
             else if(osName.toLowerCase().startsWith("linux")){
                 suffix = "so";
+                languages = "C++, Python, Python3, Java";
             }
             else{
                 suffix = "dylib";
+                languages = "C++, Python, Python3, Java";
             }
             
             // OSバージョン
@@ -538,6 +542,7 @@ class ManagerConfig {
         properties.setProperty("os.hostname", hostName);
         properties.setProperty("manager.pid", pid);
         properties.setProperty("manager.modules.C++.suffixes", suffix);
+        properties.setProperty("manager.supported_languages", languages);
 
     }
 

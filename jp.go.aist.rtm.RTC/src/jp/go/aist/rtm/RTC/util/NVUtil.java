@@ -179,12 +179,7 @@ public class NVUtil {
             try {
                 Any anyVal = nvlist.value[intIdx].value;
                 String value = null;
-                if( anyVal.type().kind() == TCKind.tk_wstring ) {
-                    //value = anyVal.extract_wstring();
-                    continue; 
-                } else if( anyVal.type().kind() == TCKind.tk_string ) {
-                    value = anyVal.extract_string();
-                } else if( anyVal.type().kind() == TCKind.tk_objref ) {
+                if( anyVal.type().kind() == TCKind.tk_objref ) {
 		    org.omg.CORBA.Object obj = anyVal.extract_Object();
 		    if (obj != null) {
 			value = obj.toString();
@@ -192,73 +187,110 @@ public class NVUtil {
 		    else {
 			value = "";
 		    }
-                } else if( anyVal.type().kind() == TCKind.tk_char ) {
-		    value =  Character.toString(anyVal.extract_char());
-                } else if( anyVal.type().kind() == TCKind.tk_double ) {
-		    value =  Double.toString(anyVal.extract_double());
-                } else if( anyVal.type().kind() == TCKind.tk_float ) {
-		    value =  Float.toString(anyVal.extract_float());
-                } else if( anyVal.type().kind() == TCKind.tk_long ) {
-		    value =  Integer.toString(anyVal.extract_long());
-                } else if( anyVal.type().kind() == TCKind.tk_longlong ) {
-		    value =  Long.toString(anyVal.extract_longlong());
+			
+                } else if( anyVal.type().kind() == TCKind.tk_boolean ) {
+                    value =  anyVal.extract_boolean() ? "true" : "false";
                 } else if( anyVal.type().kind() == TCKind.tk_octet ) {
-		    value =  Byte.toString(anyVal.extract_octet());
+                    value =  Byte.toString(anyVal.extract_octet());
+                } else if( anyVal.type().kind() == TCKind.tk_char ) {
+                    value =  Character.toString(anyVal.extract_char());
+                } else if( anyVal.type().kind() == TCKind.tk_wchar ) {
+                    value =  Character.toString(anyVal.extract_wchar());
+                } else if( anyVal.type().kind() == TCKind.tk_string ) {
+                    value = anyVal.extract_string();
+                } else if( anyVal.type().kind() == TCKind.tk_wstring ) {
+                    value = anyVal.extract_wstring();
+                } else if( anyVal.type().kind() == TCKind.tk_short ) {
+                    value =  Integer.toString(anyVal.extract_short());
+                } else if( anyVal.type().kind() == TCKind.tk_ushort ) {
+                    value =  Integer.toString(anyVal.extract_ushort());
+                } else if( anyVal.type().kind() == TCKind.tk_long ) {
+                    value =  Integer.toString(anyVal.extract_long());
+                } else if( anyVal.type().kind() == TCKind.tk_ulong ) {
+                    value =  Integer.toString(anyVal.extract_ulong());
+                } else if( anyVal.type().kind() == TCKind.tk_longlong ) {
+                    value =  Long.toString(anyVal.extract_longlong());
+                } else if( anyVal.type().kind() == TCKind.tk_ulonglong ) {
+                    value =  Long.toString(anyVal.extract_ulonglong());
+                } else if( anyVal.type().kind() == TCKind.tk_fixed ) {
+                    value = anyVal.extract_fixed().toString();
+                } else if( anyVal.type().kind() == TCKind.tk_float ) {
+                    value =  Float.toString(anyVal.extract_float());
+                } else if( anyVal.type().kind() == TCKind.tk_double ) {
+                    value =  Double.toString(anyVal.extract_double());
                 } else if( anyVal.type().kind() == TCKind.tk_struct ) {
 
-                    if(anyVal.type().name().equals("TimedLong")) {
-                        value = RTC.TimedLongHelper.extract(anyVal).toString();
-                    }
-                    else if(anyVal.type().name().equals("TimedBoolean")) {
+                    if(anyVal.type().name().equals("TimedBoolean")) {
                         value = RTC.TimedBooleanHelper.extract(anyVal).toString();
-                    }
-                    else if(anyVal.type().name().equals("TimedChar")) {
-                        value = RTC.TimedCharHelper.extract(anyVal).toString();
-                    }
-                    else if(anyVal.type().name().equals("TimedDouble")) {
-                        value = RTC.TimedDoubleHelper.extract(anyVal).toString();
-                    }
-                    else if(anyVal.type().name().equals("TimedFloat")) {
-                        value = RTC.TimedFloatHelper.extract(anyVal).toString();
                     }
                     else if(anyVal.type().name().equals("TimedOctet")) {
                         value = RTC.TimedOctetHelper.extract(anyVal).toString();
                     }
+                    else if(anyVal.type().name().equals("TimedChar")) {
+                        value = RTC.TimedCharHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedWChar")) {
+                        value = RTC.TimedCharHelper.extract(anyVal).toString();
+                    }
                     else if(anyVal.type().name().equals("TimedShort")) {
                         value = RTC.TimedShortHelper.extract(anyVal).toString();
                     }
+                    else if(anyVal.type().name().equals("TimedUShort")) {
+                        value = RTC.TimedShortHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedLong")) {
+                        value = RTC.TimedLongHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedULong")) {
+                        value = RTC.TimedLongHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedFloat")) {
+                        value = RTC.TimedFloatHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedDouble")) {
+                        value = RTC.TimedDoubleHelper.extract(anyVal).toString();
+                    }
                     else if(anyVal.type().name().equals("TimedString")) {
+                        value = RTC.TimedStringHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedWString")) {
                         value = RTC.TimedStringHelper.extract(anyVal).toString();
                     }
                     else if(anyVal.type().name().equals("TimedBooleanSeq")) {
                         value = RTC.TimedBooleanSeqHelper.extract(anyVal).toString();
                     }
-                    else if(anyVal.type().name().equals("TimedCharSeq")) {
-                        value = RTC.TimedCharSeqHelper.extract(anyVal).toString();
-                    }
-                    else if(anyVal.type().name().equals("TimedDoubleSeq")) {
-                        value = RTC.TimedDoubleSeqHelper.extract(anyVal).toString();
-                    }
-                    else if(anyVal.type().name().equals("TimedFloatSeq")) {
-                        value = RTC.TimedFloatSeqHelper.extract(anyVal).toString();
-                    }
-                    else if(anyVal.type().name().equals("TimedLongSeq")) {
-                        value = RTC.TimedLongSeqHelper.extract(anyVal).toString();
-                    }
                     else if(anyVal.type().name().equals("TimedOctetSeq")) {
                         value = RTC.TimedOctetSeqHelper.extract(anyVal).toString();
                     }
-                    else if(anyVal.type().name().equals("TimedShortSeq")) {
-                        value = RTC.TimedShortSeqHelper.extract(anyVal).toString();
+                    else if(anyVal.type().name().equals("TimedCharSeq")) {
+                        value = RTC.TimedCharSeqHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedWCharSeq")) {
+                        value = RTC.TimedCharSeqHelper.extract(anyVal).toString();
                     }
                     else if(anyVal.type().name().equals("TimedStringSeq")) {
                         value = RTC.TimedStringSeqHelper.extract(anyVal).toString();
                     }
-                    else if(anyVal.type().name().equals("TimedULongSeq")) {
-                        value = RTC.TimedULongSeqHelper.extract(anyVal).toString();
+                    else if(anyVal.type().name().equals("TimedWStringSeq")) {
+                        value = RTC.TimedWStringSeqHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedShortSeq")) {
+                        value = RTC.TimedShortSeqHelper.extract(anyVal).toString();
                     }
                     else if(anyVal.type().name().equals("TimedUShortSeq")) {
                         value = RTC.TimedUShortSeqHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedLongSeq")) {
+                        value = RTC.TimedLongSeqHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedULongSeq")) {
+                        value = RTC.TimedULongSeqHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedFloatSeq")) {
+                        value = RTC.TimedFloatSeqHelper.extract(anyVal).toString();
+                    }
+                    else if(anyVal.type().name().equals("TimedDoubleSeq")) {
+                        value = RTC.TimedDoubleSeqHelper.extract(anyVal).toString();
                     }
                     else {
                         try {
