@@ -908,6 +908,7 @@ public class ModuleManager {
                     prop.setProperty("module_file_name",
                                      new File(module).getName());
                     prop.setProperty("module_file_path", module);
+                    prop.setProperty("language", lang);
                     modprops.add(prop);
                 }
             }
@@ -975,6 +976,7 @@ public class ModuleManager {
                     prop.setProperty("module_file_name",
                                      new File(module).getName());
                     prop.setProperty("module_file_path", module);
+                    prop.setProperty("language", lang);
                     rtcout.println(Logbuf.PARANOID, 
                             "module_file_name:"
                             +prop.getProperty("module_file_name"));
