@@ -106,6 +106,7 @@ install-arch:
 	(rm -f $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcd_java)
 	(rm -f $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcd_java.sh)
 	(rm -f $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcprof_java*)
+	(chmod 755 $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/*.sh)
 
 	dh_install -s
 # Must not depend on anything. This is to be called by
