@@ -922,7 +922,7 @@ public class ModuleManager {
      * {@.en This class is used to filter directory listings 
      * in the list method of class File.}
      */
-    private class FilePathFilter implements FilenameFilter{
+    private class FilePathFilter implements FilenameFilter {
         private String m_regex = new String();
         public FilePathFilter(String str) {
             m_regex = str;
@@ -1290,8 +1290,6 @@ public class ModuleManager {
             return false;
         }
     }
-    private Logbuf rtcout;
-    private ArrayList<Properties> m_modprofs = new ArrayList<Properties>();
     /**
      * {@.ja 指定したパス以下に存在するディレクトリを探索する}
      * {@.en Searches the directory which exists in below of designated paths.}
@@ -1326,5 +1324,9 @@ public class ModuleManager {
         }
         return result;
     }
-
+    /**
+     * private variables
+     */
+    private Logbuf rtcout;
+    private ArrayList<Properties> m_modprofs = new ArrayList<Properties>();
 }
