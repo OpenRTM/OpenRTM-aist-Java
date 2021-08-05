@@ -203,6 +203,7 @@ public class ModuleManager {
         rtcout.println(Logbuf.PARANOID, "Is moduleName AbsolutePath ? " 
                                         + file.exists());
         if(file.exists()){ // When moduleName is AbsolutePath.
+
             if(!m_absoluteAllowed) {
                 throw new IllegalArgumentException(
                                             "Absolute path is not allowed");
@@ -238,12 +239,17 @@ public class ModuleManager {
                                "getParent = " + file.getParent());
                 if(file.isAbsolute()){
                     URLClassLoader url = createURLClassLoader(file.getParent());
-                    rtcout.println(Logbuf.PARANOID, "url =" + url);
+                    if (fullClassName.endsWith(".jar")) {
+                        rtcout.println(Logbuf.PARANOID, "addURL(" + fullClassName + ")");
+                        addClassPath(url, fullClassName);
+                     }
+
+                    rtcout.println(Logbuf.PARANOID, "url = " + url);
                     if(url!=null){
                         String name = file.getName();
                         name = getModuleName(name);
 
-                        rtcout.println(Logbuf.PARANOID, "name =" + name);
+                        rtcout.println(Logbuf.PARANOID, "name = " + name);
                         StringHolder packageModuleName = new StringHolder();
                         target = getClassFromName(url,name,packageModuleName);
                         module_path = packageModuleName.value;
@@ -295,19 +301,27 @@ public class ModuleManager {
     private Class getClassFromName(URLClassLoader url, 
                                     String name, 
                                     StringHolder holder){
+        rtcout.println(Logbuf.TRACE,
+                    "getClassFromName(url, " + name + ", holder)");
         String separator =  System.getProperty("file.separator");
         Class target = null;
-
+        
         try {
             target = url.loadClass(name);
             holder.value = name;
         } catch (java.lang.NoClassDefFoundError e) {
+            rtcout.println(Logbuf.PARANOID,
+                    "NoClassDefFound Error exception: getClassFromName => loadClass("+name+") failed.");
             String messagetString = e.getMessage();
+            rtcout.println(Logbuf.PARANOID,
+                        "Exception messageString => " + messagetString);
             String key = "wrong name: ";
             int index = messagetString.indexOf(key);
             String packageName 
                 = messagetString.substring(index+key.length(),
                                                messagetString.length()-1);
+            rtcout.println(Logbuf.PARANOID,
+                        "Estimated packageName => " + packageName);
             URL[] urls = url.getURLs();
             java.util.ArrayList al 
                     = new java.util.ArrayList(java.util.Arrays.asList(urls));
@@ -316,15 +330,21 @@ public class ModuleManager {
                 String stringUrl = new String();
                 try{
                     stringUrl = urls[ic].toURI().getPath();
+                    rtcout.println(Logbuf.PARANOID,
+                        "stringUrl => " + stringUrl);
                 }
                 catch(Exception ex){
                     continue;
                 } 
                 int pointer = packageName.lastIndexOf(name);
                 String stringPackageName = packageName.substring(0, pointer);
+                rtcout.println(Logbuf.PARANOID,
+                        "stringPackageName => " + stringPackageName);
                 if(stringUrl.endsWith(stringPackageName)){
                     int point = stringUrl.lastIndexOf(stringPackageName);
                     stringPath = stringUrl.substring(0, point);
+                    rtcout.println(Logbuf.PARANOID,
+                                "stringPath => " + stringPath);
                     File path = new File(stringPath);
                     try{
                         URI uri = path.toURI();
@@ -341,9 +361,14 @@ public class ModuleManager {
 
             packageName = packageName.replace("/",".");
             packageName = packageName.trim();
-
+            rtcout.println(Logbuf.PARANOID, "Re-tring getClassFromName");
             target = getClassFromName(url,packageName,holder);
         } catch (Exception e) {
+            rtcout.println(Logbuf.PARANOID,
+                    "Unknown exception: getClassFromName => loadClass("+name+") failed.");
+            String messagetString = e.getMessage();
+            rtcout.println(Logbuf.PARANOID,
+                    "Exception messageString => " + messagetString);
             //
         }
         return target;
@@ -352,24 +377,18 @@ public class ModuleManager {
     /**
      * {@.ja モジュール名作成する。}
      * <p>
-     * {@.ja 拡張子を削除する。拡張子jarの場合はモジュール名を付加する}
+     * {@.ja 拡張子を削除する。}
      */
     private String getModuleName(String name){
+        rtcout.println(Logbuf.TRACE,
+                    "getModuleNmae(" + name + ", urlClassLoader)");
         String extensions[] = {".class", ".jar"};
-        for(int ic=0;ic<extensions.length;++ic){
-            if(name.endsWith(extensions[ic])){
+        for (int ic = 0; ic < extensions.length; ++ic) {
+            if (name.endsWith(extensions[ic])) {
                 int point = name.lastIndexOf(extensions[ic]);
                 name =  name.substring(0, point);
-                if(extensions[ic].equals(".jar")){
-                    try{
-                        addClassPath(url, args[0]);
-                        if(args.length == 2){
-                            name = args[1];
-                        }
-                    }
-                    catch (Exception ex) {
-                    }
-                }
+                rtcout.println(Logbuf.DEBUG,
+                "getModuleName() striped ext => " + name);
                 break;
             }
         }
@@ -395,7 +414,22 @@ public class ModuleManager {
     }
 
     /**
-     * {@.ja モジュールのアンロード。}
+     *
+     */
+    private void addClassPath(ClassLoader classLoader, String path)
+        throws ReflectiveOperationException, MalformedURLException
+    {
+        if (classLoader instanceof URLClassLoader) {
+            // URLClassLoaderであることが前提
+            Method method =
+                URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+            method.setAccessible(true);
+            // ロードするURLを追加する
+            method.invoke(classLoader, new File(path).toURI().toURL());
+        }
+    }
+    /**
+     * {@.ja モジュールのロード。}
      * {@.en Load and intialize the module}
      *
      * <p>
@@ -442,7 +476,8 @@ public class ModuleManager {
         }
 
         String module_path = load(moduleName);
-
+        rtcout.println(Logbuf.TRACE,
+                "load(" + moduleName + ") => " + module_path + "done");
         Method initMethod = symbol(module_path,methodName);
 
 
