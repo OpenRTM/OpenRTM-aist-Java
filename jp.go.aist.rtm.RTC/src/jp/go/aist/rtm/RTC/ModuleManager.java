@@ -375,9 +375,11 @@ public class ModuleManager {
     }
 
     /**
-     * {@.ja モジュール名作成する。}
+     * {@.ja 名称から拡張子を除去する。}
+     * {@.en Strip extension from name.}
      * <p>
-     * {@.ja 拡張子を削除する。}
+     * {@.ja モジュール名にファイル名が指定された際に拡張子を除去する。}
+     * {@.en Strip extension from name when a file name specified.}
      */
     private String getModuleName(String name){
         rtcout.println(Logbuf.TRACE,
@@ -414,7 +416,30 @@ public class ModuleManager {
     }
 
     /**
+     * {@.ja クラスパスの追加}
+     * {@.en Addd class path}
      *
+     * <p>
+     * {@.ja クラスパスに path を追加し実行中に新たな class や jar を
+     * ロードできるようにする。addURL()メソッドはprotectedのため、直接
+     * コールできないのでこのような実装になっている。Java9以降では動作しない。}
+     * {@.en Adding the path to the classpath to load new classes and
+     * jar files in runtime. Since addURL() method is protected and
+     * cannot be called directry, implemented as follows. This scheme
+     * does not work after Java9.}
+     *
+     * @param classLoader
+     *   {@.ja クラスローダー。URLClassLoaderでなければならない。}
+     *   {@.en A class loader. It shall URLClassLoader.}
+     * @param path
+     *   {@.ja CLASSPATHに追加するパス。}
+     *   {@.en A path to be added to CLASSPATH.}
+     * @throws ReflectiveOperationException
+     *   {@.ja リフレクション操作が機能しなかった場合にスローされます。}
+     *   {@.en Thrown when the reflection operation doesn't work.}
+     * @throws MalformedURLException
+     *   {@.ja 不正な形式のURLの場合にスローされます。}
+     *   {@.en Thrown when the malformed URL is specified.}
      */
     private void addClassPath(ClassLoader classLoader, String path)
         throws ReflectiveOperationException, MalformedURLException
