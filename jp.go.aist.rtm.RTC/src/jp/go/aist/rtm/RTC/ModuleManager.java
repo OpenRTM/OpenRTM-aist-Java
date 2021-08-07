@@ -203,7 +203,6 @@ public class ModuleManager {
         rtcout.println(Logbuf.PARANOID, "Is moduleName AbsolutePath ? " 
                                         + file.exists());
         if(file.exists()){ // When moduleName is AbsolutePath.
-
             if(!m_absoluteAllowed) {
                 throw new IllegalArgumentException(
                                             "Absolute path is not allowed");
@@ -305,7 +304,7 @@ public class ModuleManager {
                     "getClassFromName(url, " + name + ", holder)");
         String separator =  System.getProperty("file.separator");
         Class target = null;
-        
+
         try {
             target = url.loadClass(name);
             holder.value = name;
