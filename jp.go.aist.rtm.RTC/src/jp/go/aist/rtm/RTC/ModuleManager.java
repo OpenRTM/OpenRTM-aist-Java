@@ -361,7 +361,14 @@ public class ModuleManager {
                 int point = name.lastIndexOf(extensions[ic]);
                 name =  name.substring(0, point);
                 if(extensions[ic].equals(".jar")){
-                    name =  name+"."+name;
+                    try{
+                        addClassPath(url, args[0]);
+                        if(args.length == 2){
+                            name = args[1];
+                        }
+                    }
+                    catch (Exception ex) {
+                    }
                 }
                 break;
             }
