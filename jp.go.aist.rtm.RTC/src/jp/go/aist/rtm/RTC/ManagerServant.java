@@ -1519,7 +1519,6 @@ System.err.println("Manager's IOR information: "+ior);
                                          "manager.modules."
                                          +comp_param.language()
                                          +".load_paths");
-            load_path = load_path + "," + load_path_language;
             /*
             String paths[] = load_path.split(",");
             String new_paths = "";
@@ -1555,6 +1554,8 @@ System.err.println("Manager's IOR information: "+ior);
             cmd.add("manager.instance_name:"+mgrstr);
             cmd.add("-o");
             cmd.add("manager.modules.load_path:"+load_path);
+            cmd.add("-o");
+            cmd.add("manager.modules."+comp_param.language()+".load_paths:"+load_path_language);
             cmd.add("-o");
             cmd.add("manager.supported_languages:"+ comp_param.language());
             cmd.add("-o");
