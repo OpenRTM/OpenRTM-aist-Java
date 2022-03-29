@@ -219,32 +219,17 @@ public class ModuleManager {
                 }
             }
         } else {
-            Vector<String> loadPath = new Vector<String>();
-            String[] loadPathLang = Manager.instance().getConfig().getProperty("manager.modules.Java.load_paths").split(",");
-            for (int i = 0; i < loadPathLang.length; ++i) {
-                loadPathLang[i] = loadPathLang[i].trim();
-                if(loadPathLang[i].substring(0,2).equals("."+separator)){
-                    loadPathLang[i] = loadPathLang[i].substring(2);
-                }
-                loadPath.add(loadPathLang[i]);
-            }
-            loadPath = recursiveDirectory(loadPath);
-            
-            for (int i = 0; i < m_loadPath.size(); ++i) {
-                loadPath.add(m_loadPath.elementAt(i));
-            }
-            
-            if( loadPath.size()==0 ) {
+            if( m_loadPath.size()==0 ) {
                 throw new ClassNotFoundException();
             }
-            for (int i = 0; i < loadPath.size(); ++i) {
+            for (int i = 0; i < m_loadPath.size(); ++i) {
                 String fullClassName ;
-                if(loadPath.elementAt(i).equals("")
-                        ||loadPath.elementAt(i).length()==0){
+                if(m_loadPath.elementAt(i).equals("")
+                        ||m_loadPath.elementAt(i).length()==0){
                     fullClassName = moduleName;
                 }
                 else {
-                    String packageName = loadPath.elementAt(i);
+                    String packageName = m_loadPath.elementAt(i);
                     fullClassName = packageName + separator + moduleName;
                 }
                 rtcout.println(Logbuf.PARANOID, "fullClassName = " + fullClassName);
