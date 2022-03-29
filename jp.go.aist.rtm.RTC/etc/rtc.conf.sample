@@ -30,7 +30,7 @@ manager.components.naming_policy: ns_unique
 manager.components.precreate: <component name>
 #   If you want to activate #0 instance
 manager.components.preactivation: <component name>0
-
+# Creating connection previously
 manager.components.preconnect:   ¥
   <comp0 name>.<port name>?      ¥
   port=<comp1 name>.<port name>& ¥
