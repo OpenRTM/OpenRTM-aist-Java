@@ -91,10 +91,13 @@ public class ModuleManager {
         String separator =  System.getProperty("file.separator");
         for (int i = 0; i < loadPath.length; ++i) {
             loadPath[i] = loadPath[i].trim();
-            if(loadPath[i].substring(0,2).equals("."+separator)){
-                loadPath[i] = loadPath[i].substring(2);
+            if(!loadPath[i].isEmpty())
+            {
+                if(loadPath[i].substring(0,2).equals("."+separator)){
+                    loadPath[i] = loadPath[i].substring(2);
+                }
+                m_loadPath.add(loadPath[i]);
             }
-            m_loadPath.add(loadPath[i]);
         }
         m_loadPath = recursiveDirectory(m_loadPath);
         
@@ -724,6 +727,9 @@ public class ModuleManager {
         rtcout.println(Logbuf.PARANOID,
                                "load_paths :"+lprop.getProperty("load_paths"));
         String[] vstr = lprop.getProperty("load_paths").split(",");
+        for (int i = 0; i < vstr.length; ++i) {
+            vstr[i] = vstr[i].trim();
+        }
         /*
         for(int ic=0;ic<vstr.length;++ic) {
             try{
