@@ -226,8 +226,11 @@ public class ModuleManager {
             String[] loadPathLang = Manager.instance().getConfig().getProperty("manager.modules.Java.load_paths").split(",");
             for (int i = 0; i < loadPathLang.length; ++i) {
                 loadPathLang[i] = loadPathLang[i].trim();
-                if(loadPathLang[i].substring(0,2).equals("."+separator)){
-                    loadPathLang[i] = loadPathLang[i].substring(2);
+                if(!loadPathLang[i].isEmpty())
+                {
+                    if(loadPathLang[i].substring(0,2).equals("."+separator)){
+                        loadPathLang[i] = loadPathLang[i].substring(2);
+                    }
                 }
                 loadPath.add(loadPathLang[i]);
             }
