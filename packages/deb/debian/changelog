@@ -1,14 +1,8 @@
-openrtm-aist-java (2.0.0-0) experimental; urgency=low
+openrtm2-java (2.0.0-0) experimental; urgency=low
 
   * 2.0.0-0 (2.0.0-RELEASE). OpenRTM-aist-2.0.0-RELEASE
 
  -- Noriaki Ando <n-ando@aist.go.jp>  Tue, 28 May 2019 15:57:54 +0900
-
-openrtm-aist-java (1.2.0-0) experimental; urgency=low
-
-  * 1.2.0-0 (1.2.0-RELEASE). OpenRTM-aist-1.2.0-RELEASE
-
- -- Noriaki Ando <n-ando@aist.go.jp>  Mon, 12 Dec 2016 18:36:29 +0900
 
 
 

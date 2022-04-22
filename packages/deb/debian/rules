@@ -77,9 +77,9 @@ install-indep:
 	dh_installdirs -i
 
 	# for openrtm-aist-java-doc package
-	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm-aist-java-doc/usr/share/openrtm-$(SHORT_VER)/doc/java)
-	(cd $(CURDIR) ; cp -R JavaDoc $(CURDIR)/debian/openrtm-aist-java-doc/usr/share/openrtm-$(SHORT_VER)/doc/java)
-	(cd $(CURDIR) ; cp -R JavaDocEn $(CURDIR)/debian/openrtm-aist-java-doc/usr/share/openrtm-$(SHORT_VER)/doc/java)
+	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java-doc/usr/share/openrtm-$(SHORT_VER)/doc/java)
+	(cd $(CURDIR) ; cp -R JavaDoc $(CURDIR)/debian/openrtm2-java-doc/usr/share/openrtm-$(SHORT_VER)/doc/java)
+	(cd $(CURDIR) ; cp -R JavaDocEn $(CURDIR)/debian/openrtm2-java-doc/usr/share/openrtm-$(SHORT_VER)/doc/java)
 	
 	dh_install -i
 
@@ -90,23 +90,23 @@ install-arch:
 	dh_installdirs -s
 
 	# for openrtm-aist-java package
-	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm-aist-java/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER))
-	(cd $(CURDIR) ; cp -R jar $(CURDIR)/debian/openrtm-aist-java/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER))
-	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm-aist-java/etc/profile.d)
-	(cd $(CURDIR) ; echo "export RTM_JAVA_ROOT=/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER)" > $(CURDIR)/debian/openrtm-aist-java/etc/profile.d/openrtm-aist-java.sh)
-	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm-aist-java/usr/bin)
-	(cd $(CURDIR) ; cp examples/rtcd_java $(CURDIR)/debian/openrtm-aist-java/usr/bin ; chmod 755 $(CURDIR)/debian/openrtm-aist-java/usr/bin/rtcd_java)
-	(cd $(CURDIR) ; cp examples/rtcprof_java $(CURDIR)/debian/openrtm-aist-java/usr/bin ; chmod 755 $(CURDIR)/debian/openrtm-aist-java/usr/bin/rtcprof_java)
+	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER))
+	(cd $(CURDIR) ; cp -R jar $(CURDIR)/debian/openrtm2-java/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER))
+	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java/etc/profile.d)
+	(cd $(CURDIR) ; echo "export RTM_JAVA_ROOT=/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER)" > $(CURDIR)/debian/openrtm2-java/etc/profile.d/openrtm-java.sh)
+	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java/usr/bin)
+	(cd $(CURDIR) ; cp examples/rtcd_java $(CURDIR)/debian/openrtm2-java/usr/bin ; chmod 755 $(CURDIR)/debian/openrtm2-java/usr/bin/rtcd_java)
+	(cd $(CURDIR) ; cp examples/rtcprof_java $(CURDIR)/debian/openrtm2-java/usr/bin ; chmod 755 $(CURDIR)/debian/openrtm2-java/usr/bin/rtcprof_java)
 	
 	# for openrtm-aist-java-example package
-	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java)
-	(cd $(CURDIR) ; cp -R examples/* $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java)
-	(rm -f $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/*.bat)
-	(rm -f $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/*.vbs)
-	(rm -f $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcd_java)
-	(rm -f $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcd_java.sh)
-	(rm -f $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcprof_java*)
-	(chmod 755 $(CURDIR)/debian/openrtm-aist-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/*.sh)
+	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java-example/usr/share/openrtm-$(SHORT_VER)/components/java)
+	(cd $(CURDIR) ; cp -R examples/* $(CURDIR)/debian/openrtm2-java-example/usr/share/openrtm-$(SHORT_VER)/components/java)
+	(rm -f $(CURDIR)/debian/openrtm2-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/*.bat)
+	(rm -f $(CURDIR)/debian/openrtm2-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/*.vbs)
+	(rm -f $(CURDIR)/debian/openrtm2-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcd_java)
+	(rm -f $(CURDIR)/debian/openrtm2-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcd_java.sh)
+	(rm -f $(CURDIR)/debian/openrtm2-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/rtcprof_java*)
+	(chmod 755 $(CURDIR)/debian/openrtm2-java-example/usr/share/openrtm-$(SHORT_VER)/components/java/*.sh)
 
 	dh_install -s
 # Must not depend on anything. This is to be called by
