@@ -31,5 +31,5 @@ Description: OpenRTM-aist-Java examples
 
 Package: openrtm2-java-doc
 Architecture: all
-Description: Documentation for openrtm-aist-java
+Description: Documentation for openrtm2-java
  Class reference manual of OpenRTM-aist.
