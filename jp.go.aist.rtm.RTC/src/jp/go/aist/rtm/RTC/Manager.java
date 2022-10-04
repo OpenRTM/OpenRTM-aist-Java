@@ -2923,9 +2923,9 @@ public class Manager {
                                                         "enable", "disable", false));
 
             rtcout.println(Logbuf.INFO, m_config.getProperty("openrtm.version"));
-            rtcout.println(Logbuf.INFO, "Copyright (C) 2003-2020, Noriaki Ando and OpenRTM development team,");
+            rtcout.println(Logbuf.INFO, "Copyright (C) 2003-2022, Noriaki Ando and OpenRTM development team,");
             rtcout.println(Logbuf.INFO, "  Intelligent Systems Research Institute, AIST,");
-            rtcout.println(Logbuf.INFO, "Copyright (C) 2020, Noriaki Ando and OpenRTM development team,");
+            rtcout.println(Logbuf.INFO, "Copyright (C) 2022, Noriaki Ando and OpenRTM development team,");
             rtcout.println(Logbuf.INFO, "  Industrial Cyber-Physical Research Center, AIST,");
             rtcout.println(Logbuf.INFO, "  All right reserved.");
             rtcout.println(Logbuf.INFO, "Manager starting.");

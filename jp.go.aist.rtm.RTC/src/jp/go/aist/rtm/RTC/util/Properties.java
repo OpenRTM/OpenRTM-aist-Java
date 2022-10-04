@@ -28,6 +28,7 @@ public class Properties {
     private String name;
     private String value;
     private String default_value;
+    private boolean set_value = false;
     private Properties root;
     private Vector<Properties> leaf = new Vector<Properties>();
     private static final String EMPTY = "";
@@ -74,15 +75,28 @@ public class Properties {
      *   {@.ja 値}
      *   {@.en value}
      */
-    public Properties(final String key, final String value) {
+    public Properties(final String key, final String value, final boolean in_set_value) {
 		
 	this.name = key;
 	this.value = value;
 	this.default_value = "";
 	this.root = null;
+	this.set_value = this.value.isEmpty() ? in_set_value : true;
 		
 	this.leaf.clear();
     }
+    
+    public Properties(final String key, final String value) {
+        
+        this.name = key;
+        this.value = value;
+        this.default_value = "";
+        this.root = null;
+        this.set_value = this.value.isEmpty() ? false : true;
+            
+        this.leaf.clear();
+    }
+        
 	
     /**
      * {@.ja コンストラクタ}
@@ -153,13 +167,17 @@ public class Properties {
 	this.value = prop.value;
 	this.default_value = prop.default_value;
 	this.root = null;
+	this.set_value = prop.set_value;
 		
 	Vector<String> keys = prop.propertyNames();
 	for (int i = 0; i < keys.size(); ++i) {
 	    Properties node;
 	    if ((node = prop.findNode(keys.get(i))) != null) {
 		setDefault(keys.get(i), node.default_value);
-		setProperty(keys.get(i), node.value);
+		if(node.set_value)
+		{
+		    setProperty(keys.get(i), node.value);
+		}
 	    }
 	}
     }
@@ -300,7 +318,7 @@ public class Properties {
         split(key, '.', keys);
         Properties node;
         if ((node = _getNode(keys, 0, this)) != null) {
-            return (node.value.length() > 0) ? node.value : node.default_value;
+            return (node.set_value) ? node.value : node.default_value;
         }
         
         return Properties.EMPTY;
@@ -399,6 +417,7 @@ public class Properties {
 
         String oldValue = (curr.value.length() > 0) ? curr.value : curr.default_value;
         curr.value = value;
+        curr.set_value = true;
         
         return oldValue;
     }
@@ -861,7 +880,7 @@ public class Properties {
         }
         
         if (curr.root != null) {
-            if ((curr.value != null) && (curr.value.length() > 0)) {
+            if (curr.set_value && (curr.value != null)) {
                 PrintWriter writer = new PrintWriter(out);
                 writer.write(curr_name);
                 writer.write(" = ");
@@ -882,7 +901,7 @@ public class Properties {
             writer.write(curr.name);
         }
         
-        if (curr.leaf.isEmpty()) {
+        if (!curr.set_value) {
             if (curr.value.length() == 0) {
                 writer.write(": ");
                 writer.write(curr.default_value);
@@ -926,7 +945,7 @@ public class Properties {
             out = out +indent(index) + "- " + curr.name;
         }
         
-        if (curr.leaf.isEmpty()) {
+        if (!curr.set_value) {
             if (curr.value.length() == 0) {
                 out = out + ": " + curr.default_value + crlf;
             } else {

@@ -122,7 +122,7 @@ fi
 # package build process
 #------------------------------------------------------------
 packagedir=`pwd`/../../
-rm -f $packagedir/packages/openrtm-aist-java*
+rm -f $packagedir/packages/openrtm2-java*
 
 cp -r debian $packagedir
 

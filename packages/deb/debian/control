@@ -1,4 +1,4 @@
-Source: openrtm-aist-java
+Source: openrtm2-java
 Section: science
 Priority: extra
 Maintainer: Noriaki Ando <n-ando@aist.go.jp>
@@ -6,11 +6,11 @@ Build-Depends: debhelper
 Standards-Version: 3.8.4
 Homepage: http://openrtm.org
 
-Package: openrtm-aist-java
+Package: openrtm2-java
 Architecture: any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, ${misc:Depends}, default-jdk|openjdk-7-jdk|openjdk-8-jdk, openrtm-aist-dev
+Depends: ${shlibs:Depends}, ${misc:Depends}, openjdk-8-jdk, openrtm2-dev
 Description: OpenRTM-aist, RT-Middleware distributed by AIST
  OpenRTM-aist is a reference implementation of RTC (Robotic Technology
  Component Version 1.1, formal/12-09-01) specification which is OMG
@@ -22,14 +22,14 @@ Description: OpenRTM-aist, RT-Middleware distributed by AIST
  National Institute of Advanced Industrial Science and Technology
  (AIST), Japan. Please see http://www.openrtm.org/ for more detail.
 
-Package: openrtm-aist-java-example
+Package: openrtm2-java-example
 Architecture: any
 Multi-Arch: same
-Depends: openrtm-aist
+Depends: openrtm2
 Description: OpenRTM-aist-Java examples
  Example components and sources of OpenRTM-aist.
 
-Package: openrtm-aist-java-doc
+Package: openrtm2-java-doc
 Architecture: all
-Description: Documentation for openrtm-aist-java
+Description: Documentation for openrtm2-java
  Class reference manual of OpenRTM-aist.
