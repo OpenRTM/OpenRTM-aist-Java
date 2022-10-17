@@ -3126,7 +3126,7 @@ public class Manager {
      private void parsesCorbaEndpointOutputToList(String endpoint ,
                                       java.util.ArrayList result){
 
-        if(endpoint != null && (endpoint.indexOf(":")>=0))  {
+        if(endpoint != null)  {
             String[] endPointInfo = endpoint.split(":");
             if( !endPointInfo[0].equals("") ) {
             }
@@ -3158,7 +3158,7 @@ public class Manager {
      private void parsesCorbaEndpoint(String endpoint ,
                                       java.util.Map result){
 
-        if(endpoint != null && (endpoint.indexOf(":")>=0))  {
+        if(endpoint != null)  {
             String[] endPointInfo = endpoint.split(":");
             if( !endPointInfo[0].equals("") ) {
                 result.put(Constants.SERVER_HOST, endPointInfo[0]);
