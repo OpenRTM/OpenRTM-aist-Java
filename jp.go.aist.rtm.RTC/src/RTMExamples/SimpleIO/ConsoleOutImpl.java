@@ -5,6 +5,7 @@ import java.util.Observable;
 
 import RTC.ReturnCode_t;
 import RTC.TimedLong;
+import RTC.Time;
 import jp.go.aist.rtm.RTC.DataFlowComponentBase;
 import jp.go.aist.rtm.RTC.Manager;
 import jp.go.aist.rtm.RTC.connectorListener.ReturnCode;
@@ -24,6 +25,7 @@ public class ConsoleOutImpl  extends DataFlowComponentBase {
         super(manager);
         // <rtc-template block="initializer">
         m_in_val = new TimedLong();
+        m_in_val.tm = new Time();
         m_in = new DataRef<TimedLong>(m_in_val);
         m_inIn = new InPort<TimedLong>("in", m_in);
         // </rtc-template>
