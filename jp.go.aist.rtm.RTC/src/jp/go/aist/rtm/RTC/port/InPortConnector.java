@@ -165,7 +165,7 @@ public abstract class InPortConnector extends ConnectorBase {
      * {@.en Reading data}
      *
      */
-    public abstract ReturnCode read(DataRef<InputStream> data);
+    public abstract <DataType> ReturnCode read(DataRef<DataType> data);
     /**
      * {@.ja OutPortのオブジェクトを設定する。}
      * {@.en Sets the object of OutPort}

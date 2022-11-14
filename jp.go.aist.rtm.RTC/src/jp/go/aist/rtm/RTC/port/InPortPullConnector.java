@@ -158,7 +158,7 @@ public class InPortPullConnector extends InPortConnector {
      *         PRECONDITION_NOT_MET Preconditin not met
      *         PORT_ERROR           Other error}
      */
-    public ReturnCode read(DataRef<InputStream> data){
+    public <DataType> ReturnCode read(DataRef<DataType> data){
         rtcout.println(Logbuf.TRACE, "InPortPullConnector.read()");
         if (m_directOutPort != null) {
             return ReturnCode.BUFFER_EMPTY;

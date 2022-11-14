@@ -429,8 +429,8 @@ public class InPort<DataType> extends InPortBase {
             ReturnCode ret = ReturnCode.PORT_OK;
             EncapsOutputStreamExt cdr = new EncapsOutputStreamExt(m_orb, 
                                                         isLittleEndian());
-            DataRef<InputStream> dataref 
-                    = new DataRef<InputStream>(cdr.create_input_stream());
+            //DataRef<InputStream> dataref 
+            //        = new DataRef<InputStream>(cdr.create_input_stream());
             synchronized (m_connectors){
 
                 if (m_connectors.size() == 0) {
@@ -440,7 +440,7 @@ public class InPort<DataType> extends InPortBase {
 
                 //ret = m_connectors.elementAt(0).read(dataref);
                 for(int ic=0;ic<m_connectors.size();++ic){
-                    ret = m_connectors.elementAt(ic).read(dataref);
+                    ret = m_connectors.elementAt(ic).read(m_value);
                     if (ret.equals(ReturnCode.PORT_OK)) {
                         break;
                     }
@@ -450,7 +450,7 @@ public class InPort<DataType> extends InPortBase {
             if (ret.equals(ReturnCode.PORT_OK)) {
                 rtcout.println(Logbuf.DEBUG, "data read succeeded");
 
-                m_value.v = read_stream(m_value,dataref.v);
+                //m_value.v = read_stream(m_value,dataref.v);
                 if (m_OnReadConvert != null) {
                     m_value.v = m_OnReadConvert.run(m_value.v);
                     rtcout.println(Logbuf.DEBUG, "OnReadConvert called");

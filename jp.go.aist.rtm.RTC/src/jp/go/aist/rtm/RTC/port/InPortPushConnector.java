@@ -128,7 +128,7 @@ public class InPortPushConnector extends InPortConnector {
      *         PORT_ERROR           Other error}
      *
      */
-    public ReturnCode read(DataRef<InputStream> data) {
+    public <DataType> ReturnCode read(DataRef<DataType> data) {
         rtcout.println(Logbuf.TRACE, "read()");
         if (m_directOutPort != null) {
             OutPort outport = (OutPort)m_directOutPort;
@@ -164,7 +164,7 @@ public class InPortPushConnector extends InPortConnector {
 */
         if(ret != jp.go.aist.rtm.RTC.buffer.ReturnCode.BUFFER_OK){
             ReturnCode code = convertReturn(ret,dataref);
-            data.v = dataref.v.create_input_stream();
+            //data.v = dataref.v.create_input_stream();
             return code;
         }
         else {
@@ -176,7 +176,8 @@ public class InPortPushConnector extends InPortConnector {
             m_serializer.isLittleEndian(m_isLittleEndian);
             //InputStream in_cdr = cdr.create_input_stream();
             //SerializeReturnCode ser_ret = m_serializer.deserialize(dataref,in_cdr);
-            SerializeReturnCode ser_ret = m_serializer.deserialize(dataref,cdr);
+
+            SerializeReturnCode ser_ret = m_serializer.deserialize(data,dataref.v);
 
             if(ser_ret.equals(SerializeReturnCode.SERIALIZE_OK)){
                 //data = _data;
