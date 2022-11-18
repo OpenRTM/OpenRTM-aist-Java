@@ -70,8 +70,8 @@ interface DefaultConfiguration {
         "manager.components.naming_policy", "process_unique",
         "manager.modules.C++.manager_cmd", "rtcd",
         "manager.modules.Python.manager_cmd", "rtcd_python",
-        "manager.modules.Python3.manager_cmd", "rtcd_python3",
-        "manager.modules.Java.manager_cmd", "rtcd_java",
+        "manager.modules.Python3.manager_cmd", "rtcd2_python3",
+        "manager.modules.Java.manager_cmd", "rtcd2_java",
         "sdo.service.provider.enabled_services",  "ALL",
         "sdo.service.consumer.enabled_services",  "ALL",
         "manager.local_service.enabled_services","ALL",
@@ -87,8 +87,8 @@ interface DefaultConfiguration {
         "manager.modules.Java.suffixes",      "class",
         "manager.modules.C++.profile_cmd",    "rtcprof",
         "manager.modules.Python.profile_cmd", "rtcprof_python",
-        "manager.modules.Python3.profile_cmd", "rtcprof_python3",
-        "manager.modules.Java.profile_cmd",   "rtcprof_java",
+        "manager.modules.Python3.profile_cmd", "rtcprof2_python3",
+        "manager.modules.Java.profile_cmd",   "rtcprof2_java",
         ""
     };
 }
