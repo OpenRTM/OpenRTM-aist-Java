@@ -259,12 +259,17 @@ public class ModuleManager {
                                "getParent = " + file.getParent());
                 if(file.isAbsolute()){
                     URLClassLoader url = createURLClassLoader(file.getParent());
-                    rtcout.println(Logbuf.PARANOID, "url =" + url);
+                    if (fullClassName.endsWith(".jar")) {
+                        rtcout.println(Logbuf.PARANOID, "addURL(" + fullClassName + ")");
+                        addClassPath(url, fullClassName);
+                     }
+
+                    rtcout.println(Logbuf.PARANOID, "url = " + url);
                     if(url!=null){
                         String name = file.getName();
                         name = getModuleName(name);
 
-                        rtcout.println(Logbuf.PARANOID, "name =" + name);
+                        rtcout.println(Logbuf.PARANOID, "name = " + name);
                         StringHolder packageModuleName = new StringHolder();
                         target = getClassFromName(url,name,packageModuleName);
                         module_path = packageModuleName.value;
@@ -316,6 +321,8 @@ public class ModuleManager {
     private Class getClassFromName(URLClassLoader url, 
                                     String name, 
                                     StringHolder holder){
+        rtcout.println(Logbuf.TRACE,
+                    "getClassFromName(url, " + name + ", holder)");
         String separator =  System.getProperty("file.separator");
         Class target = null;
 
@@ -323,12 +330,18 @@ public class ModuleManager {
             target = url.loadClass(name);
             holder.value = name;
         } catch (java.lang.NoClassDefFoundError e) {
+            rtcout.println(Logbuf.PARANOID,
+                    "NoClassDefFound Error exception: getClassFromName => loadClass("+name+") failed.");
             String messagetString = e.getMessage();
+            rtcout.println(Logbuf.PARANOID,
+                        "Exception messageString => " + messagetString);
             String key = "wrong name: ";
             int index = messagetString.indexOf(key);
             String packageName 
                 = messagetString.substring(index+key.length(),
                                                messagetString.length()-1);
+            rtcout.println(Logbuf.PARANOID,
+                        "Estimated packageName => " + packageName);
             URL[] urls = url.getURLs();
             java.util.ArrayList al 
                     = new java.util.ArrayList(java.util.Arrays.asList(urls));
@@ -337,15 +350,21 @@ public class ModuleManager {
                 String stringUrl = new String();
                 try{
                     stringUrl = urls[ic].toURI().getPath();
+                    rtcout.println(Logbuf.PARANOID,
+                        "stringUrl => " + stringUrl);
                 }
                 catch(Exception ex){
                     continue;
                 } 
                 int pointer = packageName.lastIndexOf(name);
                 String stringPackageName = packageName.substring(0, pointer);
+                rtcout.println(Logbuf.PARANOID,
+                        "stringPackageName => " + stringPackageName);
                 if(stringUrl.endsWith(stringPackageName)){
                     int point = stringUrl.lastIndexOf(stringPackageName);
                     stringPath = stringUrl.substring(0, point);
+                    rtcout.println(Logbuf.PARANOID,
+                                "stringPath => " + stringPath);
                     File path = new File(stringPath);
                     try{
                         URI uri = path.toURI();
@@ -362,28 +381,36 @@ public class ModuleManager {
 
             packageName = packageName.replace("/",".");
             packageName = packageName.trim();
-
+            rtcout.println(Logbuf.PARANOID, "Re-tring getClassFromName");
             target = getClassFromName(url,packageName,holder);
         } catch (Exception e) {
+            rtcout.println(Logbuf.PARANOID,
+                    "Unknown exception: getClassFromName => loadClass("+name+") failed.");
+            String messagetString = e.getMessage();
+            rtcout.println(Logbuf.PARANOID,
+                    "Exception messageString => " + messagetString);
             //
         }
         return target;
     }
 
     /**
-     * {@.ja モジュール名作成する。}
+     * {@.ja 名称から拡張子を除去する。}
+     * {@.en Strip extension from name.}
      * <p>
-     * {@.ja 拡張子を削除する。拡張子jarの場合はモジュール名を付加する}
+     * {@.ja モジュール名にファイル名が指定された際に拡張子を除去する。}
+     * {@.en Strip extension from name when a file name specified.}
      */
     private String getModuleName(String name){
+        rtcout.println(Logbuf.TRACE,
+                    "getModuleNmae(" + name + ", urlClassLoader)");
         String extensions[] = {".class", ".jar"};
-        for(int ic=0;ic<extensions.length;++ic){
-            if(name.endsWith(extensions[ic])){
+        for (int ic = 0; ic < extensions.length; ++ic) {
+            if (name.endsWith(extensions[ic])) {
                 int point = name.lastIndexOf(extensions[ic]);
                 name =  name.substring(0, point);
-                if(extensions[ic].equals(".jar")){
-                    name =  name+"."+name;
-                }
+                rtcout.println(Logbuf.DEBUG,
+                "getModuleName() striped ext => " + name);
                 break;
             }
         }
@@ -409,7 +436,45 @@ public class ModuleManager {
     }
 
     /**
-     * {@.ja モジュールのアンロード。}
+     * {@.ja クラスパスの追加}
+     * {@.en Addd class path}
+     *
+     * <p>
+     * {@.ja クラスパスに path を追加し実行中に新たな class や jar を
+     * ロードできるようにする。addURL()メソッドはprotectedのため、直接
+     * コールできないのでこのような実装になっている。Java9以降では動作しない。}
+     * {@.en Adding the path to the classpath to load new classes and
+     * jar files in runtime. Since addURL() method is protected and
+     * cannot be called directry, implemented as follows. This scheme
+     * does not work after Java9.}
+     *
+     * @param classLoader
+     *   {@.ja クラスローダー。URLClassLoaderでなければならない。}
+     *   {@.en A class loader. It shall URLClassLoader.}
+     * @param path
+     *   {@.ja CLASSPATHに追加するパス。}
+     *   {@.en A path to be added to CLASSPATH.}
+     * @throws ReflectiveOperationException
+     *   {@.ja リフレクション操作が機能しなかった場合にスローされます。}
+     *   {@.en Thrown when the reflection operation doesn't work.}
+     * @throws MalformedURLException
+     *   {@.ja 不正な形式のURLの場合にスローされます。}
+     *   {@.en Thrown when the malformed URL is specified.}
+     */
+    private void addClassPath(ClassLoader classLoader, String path)
+        throws ReflectiveOperationException, MalformedURLException
+    {
+        if (classLoader instanceof URLClassLoader) {
+            // URLClassLoaderであることが前提
+            Method method =
+                URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
+            method.setAccessible(true);
+            // ロードするURLを追加する
+            method.invoke(classLoader, new File(path).toURI().toURL());
+        }
+    }
+    /**
+     * {@.ja モジュールのロード。}
      * {@.en Load and intialize the module}
      *
      * <p>
@@ -456,7 +521,8 @@ public class ModuleManager {
         }
 
         String module_path = load(moduleName);
-
+        rtcout.println(Logbuf.TRACE,
+                "load(" + moduleName + ") => " + module_path + "done");
         Method initMethod = symbol(module_path,methodName);
 
 
@@ -880,7 +946,7 @@ public class ModuleManager {
      * {@.en This class is used to filter directory listings 
      * in the list method of class File.}
      */
-    private class FilePathFilter implements FilenameFilter{
+    private class FilePathFilter implements FilenameFilter {
         private String m_regex = new String();
         public FilePathFilter(String str) {
             m_regex = str;
@@ -1248,8 +1314,6 @@ public class ModuleManager {
             return false;
         }
     }
-    private Logbuf rtcout;
-    private ArrayList<Properties> m_modprofs = new ArrayList<Properties>();
     /**
      * {@.ja 指定したパス以下に存在するディレクトリを探索する}
      * {@.en Searches the directory which exists in below of designated paths.}
@@ -1284,5 +1348,9 @@ public class ModuleManager {
         }
         return result;
     }
-
+    /**
+     * private variables
+     */
+    private Logbuf rtcout;
+    private ArrayList<Properties> m_modprofs = new ArrayList<Properties>();
 }
