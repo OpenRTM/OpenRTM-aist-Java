@@ -507,11 +507,11 @@ class ManagerConfig {
             }
             else if(osName.toLowerCase().startsWith("linux")){
                 suffix = "so";
-                languages = "C++, Python, Python3, Java";
+                languages = "C++, Python, Java";
             }
             else{
                 suffix = "dylib";
-                languages = "C++, Python, Python3, Java";
+                languages = "C++, Python, Java";
             }
             
             // OSバージョン
