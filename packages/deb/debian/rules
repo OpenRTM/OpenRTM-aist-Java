@@ -90,10 +90,10 @@ install-arch:
 	dh_installdirs -s
 
 	# for openrtm-aist-java package
-	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER))
-	(cd $(CURDIR) ; cp -R jar $(CURDIR)/debian/openrtm2-java/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER))
+	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java/usr/share/openrtm-$(SHORT_VER))
+	(cd $(CURDIR) ; cp -R jar $(CURDIR)/debian/openrtm2-java/usr/share/openrtm-$(SHORT_VER))
 	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java/etc/profile.d)
-	(cd $(CURDIR) ; echo "export RTM_JAVA_ROOT=/usr/lib/$(DEB_HOST_MULTIARCH)/openrtm-$(SHORT_VER)" > $(CURDIR)/debian/openrtm2-java/etc/profile.d/openrtm-java.sh)
+	(cd $(CURDIR) ; echo "export RTM_JAVA_ROOT=/usr/share/openrtm-$(SHORT_VER)" > $(CURDIR)/debian/openrtm2-java/etc/profile.d/openrtm-java.sh)
 	(cd $(CURDIR) ; mkdir -p $(CURDIR)/debian/openrtm2-java/usr/bin)
 	(cd $(CURDIR) ; cp examples/rtcd2_java $(CURDIR)/debian/openrtm2-java/usr/bin ; chmod 755 $(CURDIR)/debian/openrtm2-java/usr/bin/rtcd2_java)
 	(cd $(CURDIR) ; cp examples/rtcprof2_java $(CURDIR)/debian/openrtm2-java/usr/bin ; chmod 755 $(CURDIR)/debian/openrtm2-java/usr/bin/rtcprof2_java)
