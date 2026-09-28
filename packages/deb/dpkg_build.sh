@@ -46,18 +46,19 @@ dist_key=""
 #---------------------------------------
 check_codename ()
 {
-    cnames="sarge etch lenny squeeze wheezy"
-    for c in $cnames; do
-	if test -f "/etc/apt/sources.list"; then
-	    res=`grep $c /etc/apt/sources.list`
-	else
-	    echo "This distribution may not be debian/ubuntu."
-	    exit
-	fi
-	if test ! "x$res" = "x" ; then
-	    DISTRIB_CODENAME=$c
-	fi
-    done
+  if test -f /etc/os-release ; then
+    . /etc/os-release
+    if test "x$ID" = "xdebian" ; then
+      if test "x$VERSION_CODENAME" != "x" ; then
+        DISTRIB_CODENAME=$VERSION_CODENAME
+      else
+        DISTRIB_CODENAME=`lsb_release -cs`
+      fi
+    elif test ! "x$ID" = "xraspbian" ; then 
+      echo "This distribution may not be debian."
+      exit
+    fi
+  fi
 }
 
 # Check the lsb distribution name

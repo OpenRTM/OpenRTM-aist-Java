@@ -1,0 +1,65 @@
+FROM debian:bookworm 
+
+ARG VERSION
+ARG JAVA_SHORT_VER
+
+ENV TZ=Asia/Tokyo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt update\
+ && apt install -y --no-install-recommends \
+ ant \
+ junit \
+ apt-transport-https \
+ dirmngr \
+ gnupg \
+ software-properties-common \
+ ca-certificates \
+ wget \
+ zip \ 
+ unzip \ 
+ cmake \
+ doxygen \
+ pkg-config \
+ build-essential \
+ debhelper \
+ devscripts \
+ fakeroot 
+
+RUN wget --no-check-certificate https://openrtm.org/pub/openrtm-keyring.gpg -O /etc/apt/keyrings/openrtm-keyring.gpg \
+ && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/openrtm-keyring.gpg] http://openrtm.org/pub/Linux/raspbian/ $(cat /etc/os-release | sed -n 's/VERSION_CODENAME=//p') main" | tee /etc/apt/sources.list.d/openrtm.list > /dev/null \
+ && wget --no-check-certificate -O - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor -o /etc/apt/keyrings/adoptium.gpg \
+ && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/adoptium.gpg] https://packages.adoptium.net/artifactory/deb $(cat /etc/os-release | sed -n 's/VERSION_CODENAME=//p') main" | tee /etc/apt/sources.list.d/adoptium.list > /dev/null \
+ && apt update \
+ && apt install -y --no-install-recommends \
+ libomniorb4-dev \
+ omniidl \
+ omniorb-nameserver \
+ omniidl-python3 \
+ python3-omniorb-omg \
+ temurin-8-jdk \
+ && JAVA8=`update-alternatives --list java | grep 8-jdk` \
+ && update-alternatives --set java ${JAVA8}
+
+COPY OpenRTM-aist-Java /root/OpenRTM-aist-Java
+WORKDIR /root/OpenRTM-aist-Java
+RUN export JAVA_HOME=/usr/ \
+ && sh buildRTC.sh \ 
+ && sh buildPackage.sh
+
+RUN mkdir -p /root/OpenRTM-aist-Java/work \
+ && mkdir -p /root/java-src-pkgs \
+ && cp /root/OpenRTM-aist-Java/jp.go.aist.rtm.RTC/jar/source/OpenRTM*jar.zip /root/OpenRTM-aist-Java/work/ \
+ && cp /root/OpenRTM-aist-Java/jp.go.aist.rtm.RTC/jar/source/OpenRTM*.zip /root/java-src-pkgs/ \
+ && cp /root/OpenRTM-aist-Java/jp.go.aist.rtm.RTC/jar/source/OpenRTM*.tar.gz /root/java-src-pkgs/
+
+
+WORKDIR /root/OpenRTM-aist-Java/work
+RUN unzip OpenRTM-aist-Java-${VERSION}-jar.zip \
+ && cd OpenRTM-aist/${JAVA_SHORT_VER} \
+ && cp -r /root/OpenRTM-aist-Java/packages . \
+ && cd packages/deb \
+ && sh dpkg_build.sh
+
+RUN mkdir -p /root/java-deb-pkgs \
+ && cp /root/OpenRTM-aist-Java/work/OpenRTM-aist/${JAVA_SHORT_VER}/packages/openrtm* /root/java-deb-pkgs/
